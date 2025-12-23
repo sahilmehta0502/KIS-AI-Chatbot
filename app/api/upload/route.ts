@@ -1,14 +1,29 @@
-import fs from "fs";
-import path from "path";
 import { NextResponse } from "next/server";
+import { supabase } from "@/lib/supabaseClient";
 
 export async function POST(req: Request) {
-  const form = await req.formData();
-  const file = form.get("file") as File;
+  try {
+    const data = await req.formData();
+    const file = data.get("file") as File;
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const filePath = path.join(process.cwd(), "public", "knowledge.xlsx");
+    if (!file) return NextResponse.json({ success: false, message: "No file uploaded" });
 
-  fs.writeFileSync(filePath, buffer);
-  return NextResponse.json({ success: true });
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Upload to Supabase Storage
+    const { error } = await supabase.storage
+      .from("knowledge")
+      .upload("knowledge.xlsx", buffer, { upsert: true });
+
+    if (error) {
+      console.error("Supabase upload error:", error.message);
+      return NextResponse.json({ success: false, message: error.message });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Upload API error:", err);
+    return NextResponse.json({ success: false, message: "Upload failed" });
+  }
 }
