@@ -131,7 +131,3 @@ Deployed on **Vercel**.
 Supabase persists data across deployments.
 
 ---
-
-## 📜 License
-
-MIT License
