@@ -2,12 +2,12 @@
 
 **Kenmark ITan Solutions – AI Chatbot Platform**
 
-KIS-AI-Chatbot is a modern **AI-powered chatbot web application** built with **Next.js** and deployed on **Vercel**.  
-It enables users to interact with an AI assistant, while administrators can **upload and update knowledge using Excel files**, which are stored in **Supabase** and dynamically fetched by the chatbot.
+KIS-AI-Chatbot is a modern, production-ready **AI-powered chatbot web application** built with **Next.js** and deployed on **Vercel**.  
+It allows end users to interact with an AI assistant while administrators can dynamically manage chatbot knowledge using **Excel files**, stored and served via **Supabase**.
 
 ---
 
-## 🌐 Live Application
+## 🌐 Live URLs
 
 | Purpose | URL |
 |------|-----|
@@ -16,17 +16,29 @@ It enables users to interact with an AI assistant, while administrators can **up
 
 ---
 
-## ✨ Key Features 
+## 📂 Repository
+
+- **GitHub:** https://github.com/sahilmehta0502/KIS-AI-Chatbot
+
+---
+
+## ✨ Key Features
 
 ### 🧠 Knowledge Management (Admin Panel)
-- Upload **Excel (.xlsx)** files to update chatbot knowledge  
-- Data is parsed and stored in **Supabase**  
-- No redeployment required after updating knowledge  
+- Upload **Excel (.xlsx)** files to manage chatbot knowledge
+- Automatic parsing of Excel data
+- Knowledge updates **without redeployment**
+- Secure admin-only access
 
 ### ☁️ Supabase Integration
-- Supabase acts as the **central knowledge database**  
-- Uploaded Excel data is stored in Supabase tables  
-- Chatbot fetches data from Supabase to generate responses  
+- Supabase acts as the **central knowledge database**
+- Excel-uploaded data is stored in PostgreSQL tables
+- Chatbot dynamically fetches knowledge at runtime
+
+### 🤖 AI Chat Experience
+- Natural language chat interface
+- AI responses enriched with Supabase knowledge
+- Scalable LLM-based backend
 
 ---
 
@@ -35,7 +47,8 @@ It enables users to interact with an AI assistant, while administrators can **up
 | Layer | Technology |
 |-----|-----------|
 | Frontend | Next.js (React, TypeScript) |
-| AI | LLM Integration |
+| Backend | Next.js API Routes |
+| AI | LLM (OpenAI-compatible API) |
 | Database | Supabase (PostgreSQL) |
 | File Upload | Excel (.xlsx) |
 | Hosting | Vercel |
@@ -53,24 +66,24 @@ Admin Upload (Excel)
         ↓
    Supabase Database
         ↓
- Chatbot Fetches Data
+ Chatbot Fetches Knowledge
         ↓
  AI Generates Response
         ↓
-   User Chat UI
+   User Chat Interface
 ```
 
 ---
 
-## 📁 Project Structure (Simplified)
+## 📁 Project Structure
 
 ```
 app/
- ├─ page.tsx
- ├─ admin/page.tsx
+ ├─ page.tsx            # Chat UI
+ ├─ admin/page.tsx      # Admin panel
  ├─ api/
- │   ├─ chat/route.ts
- │   └─ upload/route.ts
+ │   ├─ chat/route.ts   # Chat API
+ │   └─ upload/route.ts # Excel upload API
 
 components/
 lib/
@@ -81,32 +94,34 @@ public/
 
 ## 📊 Knowledge Upload Format (Excel)
 
-The admin panel accepts an Excel (.xlsx) file with the following columns:
+The admin panel accepts **.xlsx** files with the following columns:
 
 | Column | Description |
 |------|-------------|
 | category | Topic or section (e.g., About, Services, FAQ) |
-| question | User query or prompt |
+| question | User question |
 | answer | Chatbot response |
 
 ### Example Categories
-- About  
-- Services  
-- Contact  
-- Website  
-- FAQ  
+- About
+- Services
+- Contact
+- Website
+- FAQ
 
 ---
 
 ## 🔐 Environment Variables
 
-Create a `.env.local` file:
+Create a `.env.local` file in the root directory:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
+OPENAI_API_KEY=your_openai_api_key
 ```
+
+⚠️ **Never commit API keys to GitHub.**
 
 ---
 
@@ -125,9 +140,28 @@ Visit:
 
 ---
 
-## 📦 Deployment
+## ☁️ Supabase Storage
 
-Deployed on **Vercel**.  
-Supabase persists data across deployments.
+- Knowledge files are stored in Supabase buckets
+- Example bucket: `knowledge`
+- Data persists across deployments
 
 ---
+
+## 📦 Deployment
+
+- Hosted on **Vercel**
+- Supabase ensures persistent database and storage
+- Environment variables configured in Vercel dashboard
+
+---
+
+## 🛡️ Security Notes
+
+- Restrict admin routes using authentication
+- Protect Supabase keys
+- Use Row Level Security (RLS) in Supabase
+
+---
+
+
